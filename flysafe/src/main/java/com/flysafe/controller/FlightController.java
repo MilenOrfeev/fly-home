@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class FlightController {
     private FlightService flightService;
 
-    @GetMapping(value = "flight")
+    @GetMapping(value = "/flight")
     public Flight getFlightData(FlightRequest flightRequest) {
         return flightService.findFlights(flightRequest);
     }
