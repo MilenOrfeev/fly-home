@@ -29,9 +29,10 @@ function displayFlights(flights){
 
 function sendQuestions()
 {
-    chrome.runtime.sendMessage(null, "OTVORI SE BE", null ,function(response) {
-        console.log("response");
+    chrome.runtime.sendMessage( {message: "Tova e taina"},function(response) {
+        console.log(response.otgovor);
     });
 }
 
 setInterval(sendQuestions, 10000);
+localStorage.setItem("flight",JSON.stringify({outbound:"Glasgow",inbound:"Varna",date:"utre",emissions:true}));
