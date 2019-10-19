@@ -15,7 +15,7 @@ function loadFlights(request) {
 
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            displayFlights(this.responseText);
+            updateFlight(this.responseText);
         }
     };
     xhttp.open("POST", "http://localhost:5000/mario/flights", true);
@@ -36,5 +36,10 @@ function sendQuestions()
     });
 }
 
-setInterval(sendQuestions, 10000);
-localStorage.setItem("flight",JSON.stringify({outbound:"Glasgow",inbound:"Varna",date:"utre",emissions:true}));
+
+function updateFlight(flight){
+    localStorage.setItem("flight",JSON.stringify({outbound:flight.origin,inbound:flight.destination,date : flight.departureDate,emissions:true}));
+}
+
+//setInterval(sendQuestions, 10000);
+//localStorage.setItem("flight",JSON.stringify({outbound:"Glasgow",inbound:"Varna",date:"utre",emissions:true}));
