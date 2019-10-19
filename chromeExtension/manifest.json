@@ -1,10 +1,24 @@
 {
   "manifest_version": 2,
-  "name": "Test Extension",
+  "name": "FlyHome",
   "version": "0.0",
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_icon": "plane.png"
+  },
   "background": {
     "persistent": false,
     "scripts": ["background.js"]
   },
-  "permissions": ["activeTab","webNavigation","<all_urls>"]
+  "permissions": ["<all_urls>","geolocation","tabs"],
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ]
 }
