@@ -14,4 +14,10 @@ def get_cities():
             for city in country['Cities']:
                 city_names.append(city['Name'])
 
-    return city_names
+    city_yata = {}
+    for continent in geo_data_json['Continents']:  # continent
+        for country in continent['Countries']:
+            for city in country['Cities']:
+                city_yata[city['Name']] = city['IataCode']
+
+    return city_names, city_yata
