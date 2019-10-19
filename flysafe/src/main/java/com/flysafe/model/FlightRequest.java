@@ -2,14 +2,13 @@ package com.flysafe.model;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
 public class FlightRequest {
 
-    @ApiModelProperty(example = "AE")
+    @ApiModelProperty(example = "UK")
     private String country;
-    @ApiModelProperty(example = "USD")
+    @ApiModelProperty(example = "GBP")
     private String currency;
     @ApiModelProperty(example = "en-EN")
     private String locale;

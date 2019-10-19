@@ -35,10 +35,6 @@ public class FlightService {
 
     /**
      * Returns null if no flight meets requirements
-     * @param flightRequest
-     * @return
-     * @throws JsonProcessingException
-     * @throws ParseException
      */
     public CheapestFlight findFlights(FlightRequest flightRequest) throws JsonProcessingException, ParseException {
 
@@ -95,6 +91,51 @@ public class FlightService {
             } else
                 flightResponse.getQuotes().remove( minPriceQuote );
         }
+    }
+
+    public String findPlace(FlightRequest flightRequest) throws JsonProcessingException {
+
+        String place = flightRequest.getOriginPlace();
+
+        if (place.length() > 4) {
+            StringBuilder stringBuilder = new StringBuilder( place );
+            stringBuilder.substring( 0, 4 );
+            place = stringBuilder.toString();
+            logger.info( "TUKAAAAAAAAAAAAAAAAAA" + place );
+        }
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept( Collections.singletonList( MediaType.APPLICATION_JSON ) );
+        headers.set( "api-key", API_KEY );
+
+        HttpEntity<String> entity = new HttpEntity<>("body", headers);
+
+        String url = "https://www.skyscanner.net/g/chiron/api/v1/places/autosuggest/v1.0/" +
+                flightRequest.getCountry() + "/" +
+                flightRequest.getCurrency() + "/" +
+                flightRequest.getLocale() + "?query=" + place;
+
+        logger.info("Doing request with url {}", url);
+
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+
+        logger.info("Status code is {}", response.getStatusCode());
+        logger.info("Response body is {}", response.getBody());
+
+        if (response.getBody() == null) {
+            return null;
+        }
+
+        FlightResponse flightResponse = objectMapper.readValue(response.getBody(), FlightResponse.class);
+        logger.info("Created object is {}", flightResponse);
+
+        Map<Integer, Place> placeToId = new HashMap<>();
+        for (Place p : flightResponse.getPlaces()) {
+            placeToId.put(p.getPlaceId(), p);
+        }
+        return null;
     }
 
     private String requestTemplate(FlightRequest flightRequest) {
