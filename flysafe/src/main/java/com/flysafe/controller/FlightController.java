@@ -3,11 +3,14 @@ package com.flysafe.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.flysafe.model.CheapestFlight;
 import com.flysafe.model.FlightRequest;
+import com.flysafe.model.SpecificFlightRequest;
 import com.flysafe.service.FlightService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.text.ParseException;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -20,8 +23,14 @@ public class FlightController {
     }
 
     @PostMapping(path = "/flight")
-    public CheapestFlight getFlightData(@RequestBody FlightRequest flightRequest) throws JsonProcessingException {
+    public CheapestFlight getFlightData(@RequestBody FlightRequest flightRequest) throws JsonProcessingException, ParseException {
 
         return flightService.findFlights(flightRequest);
+    }
+
+    @PostMapping(path = "/returnFlight")
+    public CheapestFlight getFlightDataInRange(@RequestBody SpecificFlightRequest specificFlightRequest) throws JsonProcessingException, ParseException {
+
+        return flightService.findFlightsInRange(specificFlightRequest);
     }
 }

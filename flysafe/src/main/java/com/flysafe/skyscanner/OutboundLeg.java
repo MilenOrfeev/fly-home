@@ -3,6 +3,7 @@ package com.flysafe.skyscanner;
 
 import com.fasterxml.jackson.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
