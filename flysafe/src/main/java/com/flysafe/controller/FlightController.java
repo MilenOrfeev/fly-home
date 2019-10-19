@@ -1,8 +1,9 @@
 package com.flysafe.controller;
 
-import com.flysafe.model.Flight;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.flysafe.model.FlightRequest;
 import com.flysafe.service.FlightService;
+import com.flysafe.skyscanner.FlightResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,12 +15,12 @@ public class FlightController {
 
     private FlightService flightService;
 
-    public FlightController() {
-        flightService = new FlightService();
+    public FlightController(FlightService flightService) {
+        this.flightService = flightService;
     }
 
     @PostMapping(path = "/flight")
-    public Flight getFlightData(@RequestBody FlightRequest flightRequest) { //FIXME change return type to Flight
+    public FlightResponse getFlightData(@RequestBody FlightRequest flightRequest) throws JsonProcessingException {
 
         return flightService.findFlights(flightRequest);
     }

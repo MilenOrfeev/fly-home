@@ -1,7 +1,9 @@
 package com.flysafe.service;
 
-import com.flysafe.model.Flight;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flysafe.model.FlightRequest;
+import com.flysafe.skyscanner.FlightResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
@@ -17,7 +19,13 @@ import static com.flysafe.config.KeysConfig.skyscannerURL;
 public class FlightService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public Flight findFlights(FlightRequest flightRequest) { //FIXME change return type to flight
+    private final ObjectMapper objectMapper;
+
+    public FlightService(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
+    public FlightResponse findFlights(FlightRequest flightRequest) throws JsonProcessingException {
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -43,7 +51,14 @@ public class FlightService {
         logger.info("Status code is {}", response.getStatusCode());
         logger.info("Response body is {}", response.getBody());
 
-        return new Flight();
+        if (response.getBody() == null) {
+            return new FlightResponse();
+        }
+
+        FlightResponse flightResponse = objectMapper.readValue(response.getBody(), FlightResponse.class);
+        logger.info("Created object is {}", flightResponse);
+
+        return flightResponse;
     }
 
 }
