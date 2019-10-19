@@ -93,16 +93,7 @@ public class FlightService {
         }
     }
 
-    public String findPlace(FlightRequest flightRequest) throws JsonProcessingException {
-
-        String place = flightRequest.getOriginPlace();
-
-        if (place.length() > 4) {
-            StringBuilder stringBuilder = new StringBuilder( place );
-            stringBuilder.substring( 0, 4 );
-            place = stringBuilder.toString();
-            logger.info( "TUKAAAAAAAAAAAAAAAAAA" + place );
-        }
+    public String checkEmissions(FlightRequest flightRequest) throws JsonProcessingException {
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -112,10 +103,10 @@ public class FlightService {
 
         HttpEntity<String> entity = new HttpEntity<>("body", headers);
 
-        String url = "https://www.skyscanner.net/g/chiron/api/v1/places/autosuggest/v1.0/" +
-                flightRequest.getCountry() + "/" +
-                flightRequest.getCurrency() + "/" +
-                flightRequest.getLocale() + "?query=" + place;
+        String url = "https://www.skyscanner.net/g/chiron/api/v1/eco/average-emissions?" +
+                "routes=" +
+                flightRequest.getOriginPlace() + "," +
+                flightRequest.getDestinationPlace();
 
         logger.info("Doing request with url {}", url);
 
@@ -128,17 +119,14 @@ public class FlightService {
             return null;
         }
 
-        FlightResponse flightResponse = objectMapper.readValue(response.getBody(), FlightResponse.class);
-        logger.info("Created object is {}", flightResponse);
+        String emissions = response.getBody();
 
-        Map<Integer, Place> placeToId = new HashMap<>();
-        for (Place p : flightResponse.getPlaces()) {
-            placeToId.put(p.getPlaceId(), p);
-        }
-        return null;
+        System.out.println(emissions);
+
+        return emissions;
     }
 
-    private String requestTemplate(FlightRequest flightRequest) {
+    private String requestTemplate(FlightRequest flightRequest) throws JsonProcessingException {
         restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -151,7 +139,7 @@ public class FlightService {
                 flightRequest.getCountry() + "/" +
                 flightRequest.getCurrency() + "/" +
                 flightRequest.getLocale() + "/" +
-                flightRequest.getOriginPlace() + "/" +
+                flightRequest.getOriginPlace() + "/" + // Origin Place
                 flightRequest.getDestinationPlace() + "/" +
                 flightRequest.getOutboundPartialDate() + "/" +
                 flightRequest.getInboundPartialDate();
