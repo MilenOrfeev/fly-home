@@ -33,7 +33,6 @@ def get_flight():
 
     # Check for a city in DOM
     found_city = False
-    text = text + " Madrid."
     for city in app.config['cities']:
         match =  re.compile(r'\b({0})\b'.format(city)).search(text)
 

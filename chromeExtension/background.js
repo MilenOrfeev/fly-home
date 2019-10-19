@@ -6,19 +6,21 @@ chrome.runtime.onMessage.addListener(
 			function(request,sender,sendResponse) {
 			var json = "{\"dom\":\" " +request;
 
-                console.log(JSON.stringify({dom:request , location : location}));
-
+                console.log(JSON.stringify({dom:request , location : "Berlin"}));
+                loadFlights(JSON.stringify({dom:request , location : "Berlin"}));
                 sendResponse();});
 
-function loadFlights() {
+function loadFlights(request) {
     var xhttp = new XMLHttpRequest();
+
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             displayFlights(this.responseText);
         }
     };
     xhttp.open("POST", "http://localhost:5000/mario/flights", true);
-    xhttp.send();
+    xhttp.setRequestHeader("Content-Type", "application/json");
+    xhttp.send(request);
 }
 
 
