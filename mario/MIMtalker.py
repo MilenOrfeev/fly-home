@@ -7,7 +7,7 @@ def find_best_route(origin, destination):
     flightRequest = {}
     flightRequest['originPlace'] = origin
     flightRequest['destinationPlace'] = destination
-    flightRequest['currency'] = "USD"
+    flightRequest['currency'] = "GBP"
     flightRequest['locale'] = "en-EN"
     flightRequest['outboundPartialDate'] = "anytime"
     flightRequest['inboundPartialDate'] = "anytime"
