@@ -41,7 +41,7 @@ function sendQuestions()
 
 function updateFlight(flight){
     console.log(flight.destination);
-    localStorage.setItem("flight",JSON.stringify({outbound:flight.origin,inbound:flight.destination,date : flight.departureDate,emissions:true}));
+    localStorage.setItem("flight",JSON.stringify({outbound:flight.origin,inbound:flight.destination,date : flight.departureDate,emissions:true,price:flight.price,currency:flight.currency}));
 }
 
 //setInterval(sendQuestions, 10000);

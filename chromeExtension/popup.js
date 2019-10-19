@@ -10,6 +10,7 @@ document.getElementById("to").innerText = flight.inbound;
 document.getElementById("from").innerText = flight.outbound;
 document.getElementById("toResult").innerText = flight.inbound;
 document.getElementById("date").innerText = flight.date;
+document.getElementById("price").innerText= flight.price + " " + flight.currency;
 if(flight.emissions){
     document.getElementById("emissions").style.visibility = "visible";
 }
