@@ -1,5 +1,6 @@
 package com.flysafe.service;
 
+import com.flysafe.model.Flight;
 import com.flysafe.model.FlightRequest;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -7,12 +8,13 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
 
-import static com.flysafe.config.KeysConfig.*;
+import static com.flysafe.config.KeysConfig.API_KEY;
+import static com.flysafe.config.KeysConfig.skyscannerURL;
 
 @Service
 public class FlightService {
 
-    public String findFlights(FlightRequest flightRequest) { //FIXME change return type to flight
+    public Flight findFlights(FlightRequest flightRequest) { //FIXME change return type to flight
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -36,7 +38,7 @@ public class FlightService {
         System.out.println(response.getStatusCode());
         System.out.println(response.getBody());
 
-        return response.getBody();
+        return new Flight();
     }
 
 }
