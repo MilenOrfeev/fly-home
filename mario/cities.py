@@ -19,5 +19,6 @@ def get_cities():
         for country in continent['Countries']:
             for city in country['Cities']:
                 city_yata[city['Name']] = city['IataCode']
+    city_yata['London'] = "LON"
 
     return city_names, city_yata
