@@ -18,7 +18,7 @@ public class FlightRequest {
     private String destinationPlace;
     @ApiModelProperty(example = "anytime")
     private String outboundPartialDate;
-    @ApiModelProperty(example = "")
+    @ApiModelProperty(example = "anytime")
     private String inboundPartialDate;
 
     public FlightRequest(String country, String currency, String locale, String originPlace, String destinationPlace, String outboundPartialDate, String inboundPartialDate) {

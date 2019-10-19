@@ -2,6 +2,8 @@ package com.flysafe.service;
 
 import com.flysafe.model.Flight;
 import com.flysafe.model.FlightRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -13,6 +15,7 @@ import static com.flysafe.config.KeysConfig.skyscannerURL;
 
 @Service
 public class FlightService {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public Flight findFlights(FlightRequest flightRequest) { //FIXME change return type to flight
 
@@ -33,10 +36,12 @@ public class FlightService {
                 flightRequest.getOutboundPartialDate() + "/" +
                 flightRequest.getInboundPartialDate();
 
+        logger.info("Doing request with url {}", url);
+
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
 
-        System.out.println(response.getStatusCode());
-        System.out.println(response.getBody());
+        logger.info("Status code is {}", response.getStatusCode());
+        logger.info("Response body is {}", response.getBody());
 
         return new Flight();
     }
