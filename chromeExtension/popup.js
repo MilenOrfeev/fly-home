@@ -8,7 +8,7 @@ console.log(flight);
 
 document.getElementById("to").innerText = flight.inbound;
 document.getElementById("from").innerText = flight.outbound;
-document.getElementById("toResult").innerText = flight.outbound;
+document.getElementById("toResult").innerText = flight.inbound;
 document.getElementById("date").innerText = flight.date;
 if(flight.emissions){
     document.getElementById("emissions").style.visibility = "visible";

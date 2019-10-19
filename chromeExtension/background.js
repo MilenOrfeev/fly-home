@@ -7,7 +7,7 @@ chrome.runtime.onMessage.addListener(
 			var json = "{\"dom\":\" " +request;
 
                 console.log(JSON.stringify({dom:request , location : "Berlin"}));
-                loadFlights(JSON.stringify({dom:request , location : "Berlin"}));
+                loadFlights(JSON.stringify({dom:request , location : "Edinburgh"}));
                 sendResponse();});
 
 function loadFlights(request) {
@@ -15,7 +15,9 @@ function loadFlights(request) {
 
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            updateFlight(this.responseText);
+            console.log(this.responseText);
+            updateFlight(JSON.parse(this.responseText));
+
         }
     };
     xhttp.open("POST", "http://localhost:5000/mario/flights", true);
@@ -38,6 +40,7 @@ function sendQuestions()
 
 
 function updateFlight(flight){
+    console.log(flight.destination);
     localStorage.setItem("flight",JSON.stringify({outbound:flight.origin,inbound:flight.destination,date : flight.departureDate,emissions:true}));
 }
 
