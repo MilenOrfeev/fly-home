@@ -5,6 +5,7 @@ from flask import request
 from bs4 import BeautifulSoup
 from cities import get_cities
 from MIMtalker import find_best_route
+from flask import jsonify
 
 app = Flask(__name__)
 app.config['cities'], app.config['yatas'] = get_cities()
@@ -34,7 +35,7 @@ def get_flight():
     # Check for a city in DOM
     found_city = False
     for city in app.config['cities']:
-        match =  re.compile(r'\b({0})\b'.format(city)).search(text)
+        match = re.compile(r'\b({0})\b'.format(city)).search(text)
 
         if match is not None:
             found_city = True
@@ -42,9 +43,11 @@ def get_flight():
             yatas = app.config['yatas']
             return find_best_route(yatas[location], yatas[city])
 
-    if not found_city:
-        print("Didn't find any cities")
-    return json
+    print("Didn't find any cities")
+    response = jsonify({'status': 404, 'error': 'not found',
+                        'message': ' plane flights'})
+    response.status_code = 404
+    return response
 
 if __name__ == '__main__':
     app.run(debug=True)
