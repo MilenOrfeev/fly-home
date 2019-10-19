@@ -35,10 +35,6 @@ public class FlightService {
 
     /**
      * Returns null if no flight meets requirements
-     * @param flightRequest
-     * @return
-     * @throws JsonProcessingException
-     * @throws ParseException
      */
     public CheapestFlight findFlights(FlightRequest flightRequest) throws JsonProcessingException, ParseException {
 
@@ -97,7 +93,40 @@ public class FlightService {
         }
     }
 
-    private String requestTemplate(FlightRequest flightRequest) {
+    public String checkEmissions(FlightRequest flightRequest) throws JsonProcessingException {
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept( Collections.singletonList( MediaType.APPLICATION_JSON ) );
+        headers.set( "api-key", API_KEY );
+
+        HttpEntity<String> entity = new HttpEntity<>("body", headers);
+
+        String url = "https://www.skyscanner.net/g/chiron/api/v1/eco/average-emissions?" +
+                "routes=" +
+                flightRequest.getOriginPlace() + "," +
+                flightRequest.getDestinationPlace();
+
+        logger.info("Doing request with url {}", url);
+
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+
+        logger.info("Status code is {}", response.getStatusCode());
+        logger.info("Response body is {}", response.getBody());
+
+        if (response.getBody() == null) {
+            return null;
+        }
+
+        String emissions = response.getBody();
+
+        System.out.println(emissions);
+
+        return emissions;
+    }
+
+    private String requestTemplate(FlightRequest flightRequest) throws JsonProcessingException {
         restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -110,7 +139,7 @@ public class FlightService {
                 flightRequest.getCountry() + "/" +
                 flightRequest.getCurrency() + "/" +
                 flightRequest.getLocale() + "/" +
-                flightRequest.getOriginPlace() + "/" +
+                flightRequest.getOriginPlace() + "/" + // Origin Place
                 flightRequest.getDestinationPlace() + "/" +
                 flightRequest.getOutboundPartialDate() + "/" +
                 flightRequest.getInboundPartialDate();

@@ -26,4 +26,10 @@ public class FlightController {
 
         return flightService.findFlights( flightRequest );
     }
+
+    @PostMapping(path = "/emissions")
+    public String getEmissionsData(@RequestBody FlightRequest flightRequest) throws JsonProcessingException {
+
+        return flightService.checkEmissions( flightRequest );
+    }
 }
