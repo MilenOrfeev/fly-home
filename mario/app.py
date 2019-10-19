@@ -23,13 +23,14 @@ def get_flight():
     location = json['location']
 
     soup = BeautifulSoup(dom, features="html.parser")
-
+    # soup.find_all(re.compile('^h[1-6]$')
     # kill all script and style elements
     for script in soup(["script", "style"]):
         script.extract()  # rip it out
 
     # get text
     text = soup.get_text()
+    # headers = soup.find_all(re.compile('^h[1-6]$')
     text = text.replace("\n", " ")
 
     # Check for a city in DOM
@@ -41,12 +42,12 @@ def get_flight():
             found_city = True
             print("Found city {}".format(city))
             yatas = app.config['yatas']
+            # for header in headers:
+
             return find_best_route(yatas[location], yatas[city])
 
     print("Didn't find any cities")
-    response = jsonify({'status': 404, 'error': 'not found',
-                        'message': ' plane flights'})
-    response.status_code = 404
+    response = jsonify({'status': "not found"})
     return response
 
 if __name__ == '__main__':
