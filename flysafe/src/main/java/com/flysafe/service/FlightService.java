@@ -69,8 +69,8 @@ public class FlightService {
         }
 
         Quote minPriceQuote = Collections.min(flightResponse.getQuotes(), Comparator.comparing(Quote::getMinPrice));
-        String originName = placeToId.get(minPriceQuote.getInboundLeg().getOriginId()).getName();
-        String destinationName = placeToId.get(minPriceQuote.getOutboundLeg().getOriginId()).getName();
+        String originName = placeToId.get(minPriceQuote.getOutboundLeg().getOriginId()).getName();
+        String destinationName = placeToId.get(minPriceQuote.getInboundLeg().getOriginId()).getName();
         logger.info("The cheapest flight goes from {} to {} and costs {} {}", originName, destinationName
                 , minPriceQuote.getMinPrice(), flightRequest.getCurrency());
 
