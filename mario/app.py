@@ -25,7 +25,7 @@ def get_flight_in_range():
     jsonRequest = request.get_json()
     origin = jsonRequest['location']
     maxPrice = jsonRequest['pLimit']
-    given_range = ['period']
+    given_range = jsonRequest['period']
 
     flightRequest = {}
     flightRequest['originPlace'] = origin
