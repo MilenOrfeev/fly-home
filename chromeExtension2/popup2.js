@@ -1,7 +1,20 @@
 var placesArray;
 var place;
-document.getElementById("checkPage").addEventListener('click',sendQuery);
+document.addEventListener('click',function(e){
+    if(e.target && e.target.id== 'checkPage'){
+        sendQuery();
+    }
+        else if(e.target && e.target.id=='1'){
+            directLink(1);
+        }else  if(e.target && e.target.id=='2'){
+            directLink(2);
+        }
+        else if(e.target&& e.target.id=='3'){
+            directLink(3);
+        }
 
+});
+var linkArray=[];
 
 
 function sendQuery(){
@@ -16,13 +29,44 @@ function sendQuery(){
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 var flightDiv = document.getElementById("flights");
-
+                flightDiv.innerText = "";
                 console.log(this.responseText);
                 var flight = JSON.parse(this.responseText);
-                var node = document.createElement("P");
-                var textnode = document.createTextNode("Origin : " + flight.origin+ "Destination : " + flight.destination+ "Departure date : " + flight.departureDate+"Return date : " + flight.returnDate+ "Price : " + flight.price+ "Currency : " + flight.currency);
-                node.appendChild(textnode);
-                flightDiv.appendChild(node);
+                var buttonNumber = 1;
+                console.log(flight);
+                flight.forEach(function (arrayElement) {
+                    var node = document.createElement("div");
+                    node.className = "container";
+
+                    var node1 = document.createElement("div");
+                    node1.className = "list-group";
+                    var createA = document.createElement('a');
+                    createA.className = "list-group-item"
+                    createA.setAttribute('href', "https://www.skyscanner.net/");
+                    var textnode = document.createTextNode("Origin: " + arrayElement.origin + " Destination: " + arrayElement.destination +
+                                    " Departure: " + formatDate(new Date(arrayElement.departureDate)) +
+                                    " Return: " + formatDate(new Date(arrayElement.returnDate)) +
+                                    " Price: " + arrayElement.price+ " " + arrayElement.currency);
+                    textnode.className = "list-group-item";
+                    var button = document.createElement("BUTTON");
+                    button.setAttribute("id",""+buttonNumber);
+
+                    createA.appendChild(textnode);
+                    node1.appendChild(createA);
+                    node1.appendChild(button);
+
+                    linkArray.push(arrayElement.link);
+
+
+                    // var textnode2 = document.createTextNode(" Departure date: " + formatDate(new Date(arrayElement.departureDate)) +
+                    //     " Return date: " + formatDate(new Date(arrayElement.returnDate)));
+                    // var textnode3 = document.createTextNode(" Price: " + arrayElement.price+ " Currency: " + arrayElement.currency);
+                    node.appendChild(node1);
+                    // node.appendChild(textnode2);
+                    // node.appendChild(textnode3);
+                    flightDiv.appendChild(node);
+                })
+
 
             }
             else{
@@ -36,7 +80,30 @@ function sendQuery(){
 
 
 }
+function directLink(urlid){
 
+    var newURL = linkArray[urlid-1];
+
+    console.log((newURL));
+    if(newURL!== ""){
+        chrome.tabs.create({ url: newURL });
+    }
+
+}
+function formatDate(date) {
+    var monthNames = [
+        "January", "February", "March",
+        "April", "May", "June", "July",
+        "August", "September", "October",
+        "November", "December"
+    ];
+
+    var day = date.getDate();
+    var monthIndex = date.getMonth();
+    var year = date.getFullYear();
+
+    return day + " " + monthNames[monthIndex] + " " + year;
+}
 
 
 function autocomplete(inp) {
