@@ -45,6 +45,9 @@ def get_flight_in_range():
     flights = json.loads(responseFlight.content)
     for flight in flights:
         originFlight = origin
+        if flight['destination'] not in yatas:
+            flight['link'] = ""
+            continue
         destinationFlight = yatas[flight['destination']]
         flight['link'] = findLive(originFlight, destinationFlight, flight['departureDate'], flight['returnDate'])
 
