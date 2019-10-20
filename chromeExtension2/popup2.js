@@ -3,6 +3,7 @@ var place;
 document.getElementById("checkPage").addEventListener('click',sendQuery);
 
 
+
 function sendQuery(){
     var location = document.getElementById("location").value;
     var pLimit = document.getElementById("pLimit").value;
@@ -20,7 +21,7 @@ function sendQuery(){
                 var flight = JSON.parse(this.responseText);
                 var node = document.createElement("P");
                 var textnode = document.createTextNode("Origin : " + flight.origin+ "Destination : " + flight.destination+ "Departure date : " + flight.departureDate+"Return date : " + flight.returnDate+ "Price : " + flight.price+ "Currency : " + flight.currency);
-                node.appendChild(textNode);
+                node.appendChild(textnode);
                 flightDiv.appendChild(node);
 
             }
@@ -104,7 +105,6 @@ function autocomplete(inp) {
                                     console.log(place);
                                 }
                             });
-
                         });
                         a.appendChild(b);
                     }
