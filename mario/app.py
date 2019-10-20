@@ -20,12 +20,12 @@ def hello_world():
     return 'Hello World!'
 
 
-@app.route('/mario/range')
+@app.route('/mario/range', methods=['POST'])
 def get_flight_in_range():
     jsonRequest = request.get_json()
     origin = jsonRequest['location']
     maxPrice = jsonRequest['pLimit']
-    given_range = ['period']
+    given_range = jsonRequest['period']
 
     flightRequest = {}
     flightRequest['originPlace'] = origin
@@ -38,7 +38,7 @@ def get_flight_in_range():
     flightRequest['price'] = maxPrice
     flightRequest['range'] = given_range
 
-    responseFlight = requests.post('http://localhost:8080/api/v1/flight', json=flightRequest)
+    responseFlight = requests.post('http://localhost:8080/api/v1/flight', json=json.dumps(flightRequest))
 
     return responseFlight
 
