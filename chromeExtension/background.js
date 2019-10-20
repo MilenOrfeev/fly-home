@@ -16,8 +16,15 @@ function loadFlights(request) {
 
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200 && this.responseText !== "") {
-            console.log(this.responseText);
-            updateFlight(JSON.parse(this.responseText));
+            if(JSON.parse(this.responseText).status===500){
+                console.log("Skyscanner server error");
+                updateFlight({status:"not found"});
+            }
+            else{
+                console.log(this.responseText);
+                updateFlight(JSON.parse(this.responseText));
+            }
+
 
         }
         else{
