@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6a7b31de-ca6b-4ea1-bb7b-47f1adb99234" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../flysafe/src/main/java/com/flysafe/deeplink/DeepLinkRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../flysafe/src/main/java/com/flysafe/service/DeepLinkService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../flysafe/src/test/java/com/flysafe/service/DeepLinkServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../flysafe/src/main/java/com/flysafe/service/FlightService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../flysafe/src/main/java/com/flysafe/service/FlightService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MIMtalker.py" beforeDir="false" afterPath="$PROJECT_DIR$/MIMtalker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -132,7 +127,7 @@
       <workItem from="1571482838852" duration="4367000" />
       <workItem from="1571491553092" duration="1912000" />
       <workItem from="1571493634945" duration="9895000" />
-      <workItem from="1571511989187" duration="14051000" />
+      <workItem from="1571511989187" duration="15298000" />
     </task>
     <servers />
   </component>
@@ -153,7 +148,7 @@
     </option>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/mario$mario.coverage" NAME="mario Coverage Results" MODIFIED="1571538925918" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/mario$mario.coverage" NAME="mario Coverage Results" MODIFIED="1571540795624" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/mario$Unnamed.coverage" NAME="Unnamed Coverage Results" MODIFIED="1571501905037" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
