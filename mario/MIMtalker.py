@@ -16,9 +16,9 @@ def find_best_route(origin, destination):
     flightRequest['country'] = "UK"
 
     print(json.dumps(flightRequest, indent=2))
-    response = requests.post('http://localhost:8080/api/v1/flight', json=flightRequest)
+    responseFlight = requests.post('http://localhost:8080/api/v1/flight', json=flightRequest)
 
-    content = response.content
+    content = responseFlight.content
     if not content:
         return jsonify({'status': "not found"})
 
@@ -51,7 +51,8 @@ def find_best_route(origin, destination):
                 link = pricing_option['DeeplinkUrl']
     print(link)
 
-    finalResponse = json.loads(response.content)
+    finalResponse = json.loads(responseFlight.content)
     finalResponse['link'] = link
+    finalResponse['livePrice'] = minimum
 
     return json.dumps(finalResponse)
