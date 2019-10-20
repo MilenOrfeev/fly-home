@@ -1,0 +1,37 @@
+<!doctype html>
+<html >
+<head>
+    <link rel="stylesheet" type="text/css" href="popup2.css">
+
+    <title>Fly Home</title>
+</head>
+<body>
+<img src="skyscanner.png" alt="skyscanner">
+<div id="main">
+<form>
+    <div class="autocomplete" style="width:300px;">
+        <label>Location: <input type="text" name="location" id="location"></label><br>
+    </div>
+
+     <label>Price Limit :
+    <input type="text" name="pLimit" id="pLimit">
+</label><br>
+    <label>Period : <input type="text" name="period" id="period"></label>
+</form>
+    <button id="go">Go</button>
+</div>
+<div id="flights">
+
+    <form autocomplete="off" action="/action_page.php">
+        <div class="autocomplete" style="width:300px;">
+            <input id="myInput" type="text" name="myCountry" placeholder="Country">
+        </div>
+        <input type="submit">
+    </form>
+
+</div>
+</body>
+</html>
+
+
+<script src="popup2.js"></script>
