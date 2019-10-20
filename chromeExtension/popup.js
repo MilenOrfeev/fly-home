@@ -7,8 +7,13 @@ var flight = JSON.parse(localStorage.getItem("flight"));
 var link;
 console.log(flight);
 if(flight.status === "not found"){
-    document.getElementById("main").innerText = "We haven't spotted any flight deals at the moment." +
-        "Please try again later."
+    document.getElementById("main").innerHTML = "<div class='container'>" +
+        "<img src='skyscannerlogo.png' width='267' height='159' alt='skyscanner'>" +
+        "<div class='well'>" +
+        "<p>We haven't spotted any flight deals at the moment." +
+        "<p>Please try again later." +
+        "</div>" +
+        "</div>"
 }
 else{
     document.getElementById("to").innerText = flight.inbound;
