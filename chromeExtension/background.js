@@ -60,7 +60,7 @@ function updateFlight(flight){
     }
     else  {
         localStorage.setItem("flight",JSON.stringify({outbound:flight.origin,inbound:flight.destination,
-            date : flight.departureDate, returnDate : flight.returnDate, emissions:true,price:flight.price,currency:flight.currency}));
+            date : flight.departureDate, returnDate : flight.returnDate, emissions:true,price:flight.livePrice,currency:flight.currency, link:flight.link}));
     }
 }
 
