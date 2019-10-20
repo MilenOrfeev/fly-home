@@ -20,9 +20,9 @@ public class FlightRequest {
     private String outboundPartialDate;
     @ApiModelProperty(example = "anytime")
     private String inboundPartialDate;
-    @ApiModelProperty(example = "4")
+    @ApiModelProperty(example = "0")
     private int range;
-    @ApiModelProperty(example = "60")
+    @ApiModelProperty(example = "0")
     private int maxPrice;
 
     public FlightRequest(String country, String currency, String locale, String originPlace, String destinationPlace, String outboundPartialDate, String inboundPartialDate, int range, int maxPrice) {

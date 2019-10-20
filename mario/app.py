@@ -32,9 +32,11 @@ def get_flight():
     text = soup.get_text()
     # headers = soup.find_all(re.compile('^h[1-6]$')
     text = text.replace("\n", " ")
+    print (type(text))
 
     # Check for a city in DOM
     found_city = False
+    text = text + "Madrid"
     for city in app.config['cities']:
         match = re.compile(r'\b({0})\b'.format(city)).search(text)
 
