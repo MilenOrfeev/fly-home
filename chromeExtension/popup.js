@@ -4,6 +4,7 @@ chrome.runtime.onMessage.addListener(function(request,sender,sendResponse){
 });
 
 var flight = JSON.parse(localStorage.getItem("flight"));
+var link;
 console.log(flight);
 if(flight.status === "not found"){
     document.getElementById("main").innerText = "We haven't spotted any flight deals at the moment." +
@@ -16,10 +17,17 @@ else{
     console.log(flight.date);
     document.getElementById("date").innerText = formatDate(new Date(flight.date));
     document.getElementById("returnDate").innerText = formatDate(new Date(flight.returnDate));
-    document.getElementById("price").innerText= flight.price + " " + flight.currency;
+    document.getElementById("livePrice").innerText= flight.price + " " + flight.currency;   
+    document.getElementById("link").setAttribute("href", flight.link);
+    link=flight.link;
     if(flight.emissions){
         document.getElementById("emissions").style.visibility = "visible";
     }
+}
+document.getElementById("checkPage").addEventListener('click',directLink);
+function directLink(){
+    console.log(link);
+    window.location.href= link;
 }
 
 function formatDate(date) {
