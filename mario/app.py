@@ -1,7 +1,9 @@
+import json
 import operator
 import re
 from collections import Counter
 
+import requests
 from flask import Flask
 from flask import request
 from bs4 import BeautifulSoup
@@ -16,6 +18,29 @@ app.config['cities'], app.config['yatas'] = get_cities()
 @app.route('/')
 def hello_world():
     return 'Hello World!'
+
+
+@app.route('/mario/range')
+def get_flight_in_range():
+    jsonRequest = request.get_json()
+    origin = jsonRequest['location']
+    maxPrice = jsonRequest['pLimit']
+    given_range = ['period']
+
+    flightRequest = {}
+    flightRequest['originPlace'] = origin
+    flightRequest['destinationPlace'] = "anywhere"
+    flightRequest['currency'] = "GBP"
+    flightRequest['locale'] = "en-EN"
+    flightRequest['outboundPartialDate'] = "anytime"
+    flightRequest['inboundPartialDate'] = "anytime"
+    flightRequest['country'] = "UK"
+    flightRequest['price'] = maxPrice
+    flightRequest['range'] = given_range
+
+    responseFlight = requests.post('http://localhost:8080/api/v1/flight', json=flightRequest)
+
+    return responseFlight
 
 
 @app.route('/mario/flights', methods=['POST'])
@@ -57,6 +82,7 @@ def get_flight():
 
     if not found_city_in_title and len(text_cities.keys()) > 0:
         foundCity = text_city(text_cities)
+        print("Most dominant city on page:" + foundCity)
 
     if foundCity is None:
         print("Didn't find any cities")
@@ -71,12 +97,13 @@ def text_city(text_cities):
     # find the most common word in the text
     maxV = 0
     bestK = None
-    for k,v in text_cities.items():
+    for k, v in text_cities.items():
         if v > maxV:
             maxV = v
             bestK = k
 
     return bestK
+
 
 if __name__ == '__main__':
     app.run(debug=True)

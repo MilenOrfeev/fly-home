@@ -30,7 +30,7 @@ def find_best_route(origin, destination):
     linkRequest['country'] = "UK"
     linkRequest['currency'] = "GBP"
     linkRequest['originPlace'] = origin
-    linkRequest['destinationPlace'] = destination
+    linkRequest['destinationPlace'] = ""
     linkRequest["locationSchema"] = "iata"
     linkRequest['outboundDate'] = jsonContent["departureDate"].split("T")[0]
     linkRequest['inboundDate'] = jsonContent["returnDate"].split("T")[0]
