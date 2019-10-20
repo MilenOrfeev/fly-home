@@ -2,19 +2,42 @@
 <html>
 <head>
     <title>Fly Home</title>
+    <link rel='stylesheet' href='https://unpkg.com/emoji.css/dist/emoji.min.css'>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
 </head>
 <body>
-<img src="skyscanner.png" alt="skyscanner">
-<div id="main">
-<h1>Welcome!</h1>
-<h2>We noticed you are interested in a flight to <span id="to"></span></h2>
-<h3>We found this : From - <span id="from"></span> To: <span id ="toResult"></span>  Date From: <span id="date"></span> Date To: <span id="returnDate"></span></h3>
-    <h3>Price : <span id="price"></span></h3>
-<span id = "emissions" style="visibility: hidden;">
-    <img src="leaf.png" width="50vw" height="50vh">
-    <h4>Great news this is also a carbon neutral flight!</h4>
-</span>
-<button id="checkPage" >Book Now</button>
+<div id="main" class="container">
+    <img src="skyscannerlogo.png" width="267" height="159" alt="skyscanner">
+    <div class="panel panel-primary" style="padding-bottom: 0rem; margin-bottom: 0.5rem;">
+        <div class="panel-heading">
+            <h4 style="text-align: center">Welcome!</h4>
+        </div>
+        <div class="panel-body">
+            <p>If you are interested in <span id="to"></span>, why not visit it?
+            Here is a direct flight from: </p>
+            <p><span class="ec ec-round-pushpin"></span> <strong><span id="from"></span></strong> to <strong><span id ="toResult"></span></strong>
+            </p>
+            <p><span class="ec ec-flight-departure"></span> Departure: <span id="date"></span></p>
+            <p><span class="ec ec-flight-arrival"></span> Return: <span id="returnDate"></span></p>
+            <h2></h2>
+            <h5 style="text">Price: <strong><span id="price"></span></strong></h5>
+            <span id = "emissions" style="visibility: hidden;">
+                <div class="panel panel-success" style="margin-bottom: 0; padding-bottom: 0">
+                    <div class="panel-heading">
+                        <p><span class="ec ec-leaves"></span>
+                Great news this is also a carbon neutral flight!</p>
+                    </div>
+                </div>
+            </span>
+        </div>
+    </div>
+
+    <div style="text-align:center; padding-bottom: 0.5rem;">
+        <button id="checkPage" class="btn btn-primary">Book Now</button>
+    </div>
+
 </div>
 </body>
 </html>

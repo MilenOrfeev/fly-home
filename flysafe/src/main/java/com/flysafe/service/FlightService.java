@@ -29,8 +29,11 @@ public class FlightService {
     private final ObjectMapper objectMapper;
     RestTemplate restTemplate;
 
-    public FlightService(ObjectMapper objectMapper) {
+    private final DeepLinkService deepLinkService;
+
+    public FlightService(ObjectMapper objectMapper, DeepLinkService deepLinkService) {
         this.objectMapper = objectMapper;
+        this.deepLinkService = deepLinkService;
     }
 
     /**
@@ -77,6 +80,8 @@ public class FlightService {
             if (maxPrice == 0 || range == 0) {
                 logger.info( "The cheapest flight goes from {} at {} to {} and returns at {}, and costs {} {}", originName, departureDate,
                         destinationName, returnDate, minPriceQuote.getMinPrice(), flightRequest.getCurrency() );
+
+                // deepLinkService.getDeepLink(originName, destinationName, departureDateString, returnDateString);
 
                 return new CheapestFlight( originName, destinationName, departureDate, returnDate,
                         minPriceQuote.getMinPrice(), flightRequest.getCurrency() );
