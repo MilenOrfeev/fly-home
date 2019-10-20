@@ -31,8 +31,11 @@ else{
 }
 document.getElementById("checkPage").addEventListener('click',directLink);
 function directLink(){
-    console.log(link);
-    window.location.href= link;
+
+        var newURL = link;
+        console.log((newURL));
+        chrome.tabs.create({ url: newURL });
+
 }
 
 function formatDate(date) {
