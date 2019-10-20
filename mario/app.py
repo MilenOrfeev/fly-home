@@ -8,7 +8,7 @@ from flask import Flask
 from flask import request
 from bs4 import BeautifulSoup
 from cities import get_cities
-from MIMtalker import find_best_route
+from MIMtalker import find_best_route, findLive
 from flask import jsonify
 
 app = Flask(__name__)
@@ -38,10 +38,17 @@ def get_flight_in_range():
     flightRequest['maxPrice'] = maxPrice
     flightRequest['range'] = given_range
 
+    yatas = app.config['yatas']
+
     responseFlight = requests.post('http://localhost:8080/api/v1/manyFlights', json=flightRequest)
     print(responseFlight.content)
+    flights = json.loads(responseFlight.content)
+    for flight in flights:
+        originFlight = origin
+        destinationFlight = yatas[flight['destination']]
+        flight['link'] = findLive(originFlight, destinationFlight, flight['departureDate'], flight['returnDate'])
 
-    return responseFlight.content
+    return json.dumps(flights)
 
 
 @app.route('/mario/flights', methods=['POST'])

@@ -5,6 +5,40 @@ import json
 
 from flask import jsonify
 
+
+def findLive(origin, destination, departureDate, returnDate):
+    api_key = 'skyscanner-guts2019'
+    headers = {"api-key": api_key}
+    linkRequest = {}
+    linkRequest['country'] = "UK"
+    linkRequest['currency'] = "GBP"
+    linkRequest['originPlace'] = origin
+    linkRequest['destinationPlace'] = destination
+    linkRequest["locationSchema"] = "iata"
+    linkRequest['outboundDate'] = departureDate.split("T")[0]
+    linkRequest['inboundDate'] = returnDate.split("T")[0]
+    linkRequest['locale'] = "en-EN"
+    linkRequest["adults"] = "1"
+
+    response = requests.post('https://www.skyscanner.net/g/chiron/api/v1/flights/search/pricing/v1.0', headers=headers,
+                             json=linkRequest)
+    session = json.loads(response.content)
+    url = "https://www.skyscanner.net/g/chiron/api/v1/flights/search/pricing/v1.0?session_id=" + session['session_id']
+    data = json.loads(requests.get(url=url, headers=headers).content)
+    minimum = 100000000
+    link = "mate for 100m you can buy a plane"
+    for itinerary in data['Itineraries']:
+        for pricing_option in itinerary['PricingOptions']:
+            if pricing_option['Price'] < minimum:
+                minimum = pricing_option['Price']
+                link = pricing_option['DeeplinkUrl']
+
+    if minimum == 100000000:
+        return None
+
+    return link
+
+
 def find_best_route(origin, destination):
     flightRequest = {}
     flightRequest['originPlace'] = origin
@@ -37,11 +71,12 @@ def find_best_route(origin, destination):
     linkRequest['locale'] = "en-EN"
     linkRequest["adults"] = "1"
 
-    response = requests.post('https://www.skyscanner.net/g/chiron/api/v1/flights/search/pricing/v1.0', headers=headers, json=linkRequest)
-    print (response.content)
+    response = requests.post('https://www.skyscanner.net/g/chiron/api/v1/flights/search/pricing/v1.0', headers=headers,
+                             json=linkRequest)
+    print(response.content)
     session = json.loads(response.content)
     url = "https://www.skyscanner.net/g/chiron/api/v1/flights/search/pricing/v1.0?session_id=" + session['session_id']
-    data = json.loads(requests.get(url=url, headers = headers).content)
+    data = json.loads(requests.get(url=url, headers=headers).content)
     minimum = 100000000
     link = "mate for 100m you can buy a plane"
     for itinerary in data['Itineraries']:
