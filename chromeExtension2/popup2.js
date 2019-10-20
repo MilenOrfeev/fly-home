@@ -1,4 +1,3 @@
-document.getElementById("go").addEventListener('click',sendQuery);
 var airports;
 function sendQuery(){
     var location = document.getElementById("location").value;
