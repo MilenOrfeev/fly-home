@@ -35,11 +35,11 @@ def get_flight_in_range():
     flightRequest['outboundPartialDate'] = "anytime"
     flightRequest['inboundPartialDate'] = "anytime"
     flightRequest['country'] = "UK"
-    flightRequest['price'] = maxPrice
+    flightRequest['maxPrice'] = maxPrice
     flightRequest['range'] = given_range
 
-    jsonStuff = json.dumps(flightRequest, indent=2)
-    responseFlight = requests.post('http://localhost:8080/api/v1/flight', json=flightRequest)
+    responseFlight = requests.post('http://localhost:8080/api/v1/manyFlights', json=flightRequest)
+    print(responseFlight.content)
 
     return responseFlight.content
 

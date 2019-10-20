@@ -36,6 +36,57 @@ public class FlightService {
         this.deepLinkService = deepLinkService;
     }
 
+    public List<CheapestFlight> findAllFlights(FlightRequest flightRequest) throws JsonProcessingException, ParseException {
+        String responseBody = requestTemplate( flightRequest );
+
+        if (responseBody == null) {
+            return null;
+        }
+
+        int range = flightRequest.getRange();
+        int maxPrice = flightRequest.getMaxPrice();
+
+        FlightResponse flightResponse = objectMapper.readValue(responseBody, FlightResponse.class);
+        logger.info("Created object is {}", flightResponse);
+
+        Map<Integer, Place> placeToId = new HashMap<>();
+        for (Place place : flightResponse.getPlaces()) {
+            placeToId.put(place.getPlaceId(), place);
+        }
+
+        List<CheapestFlight> cheapestFlights = new ArrayList<>();
+        for (Quote quote : flightResponse.getQuotes()) {
+            String departureDateString = quote.getOutboundLeg().getDepartureDate();
+            String returnDateString = quote.getInboundLeg().getDepartureDate();
+
+            DateFormat format = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss" );
+            Date departureDate = format.parse( departureDateString );
+            Date returnDate = format.parse( returnDateString );
+
+            long diffInMillies = Math.abs( returnDate.getTime() - departureDate.getTime() );
+            long diff = TimeUnit.DAYS.convert( diffInMillies, TimeUnit.MILLISECONDS );
+
+            String originName = placeToId.get( quote.getOutboundLeg().getOriginId() ).getName();
+            String destinationName = placeToId.get( quote.getInboundLeg().getOriginId() ).getName();
+
+            if (diff == range && quote.getMinPrice() <= maxPrice) {
+                logger.info( "The cheapest flight goes from {} at {} to {} and returns at {}, and costs {} {}", originName, departureDate,
+                        destinationName, returnDate, quote.getMinPrice(), flightRequest.getCurrency() );
+
+                cheapestFlights.add(new CheapestFlight(originName, destinationName, departureDate, returnDate,
+                        quote.getMinPrice(), flightRequest.getCurrency()));
+            }
+        }
+
+        cheapestFlights.sort(Comparator.comparing(CheapestFlight::getPrice));
+
+        List<CheapestFlight> topCheapestFlights = new ArrayList<>();
+        for (int index = 0; index < cheapestFlights.size() && index < 3; index++) {
+           topCheapestFlights.add(cheapestFlights.get(index));
+        }
+        return topCheapestFlights;
+    }
+
     /**
      * Returns null if no flight meets requirements
      */

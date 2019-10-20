@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.ParseException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -26,6 +27,13 @@ public class FlightController {
 
         return flightService.findFlights( flightRequest );
     }
+
+    @PostMapping(path = "/manyFlights")
+    public List<CheapestFlight> getAllFlights(@RequestBody FlightRequest flightRequest) throws JsonProcessingException, ParseException {
+
+        return flightService.findAllFlights( flightRequest );
+    }
+
 
     @PostMapping(path = "/emissions")
     public String getEmissionsData(@RequestBody FlightRequest flightRequest) throws JsonProcessingException {
