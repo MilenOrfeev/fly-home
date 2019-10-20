@@ -18,7 +18,10 @@ def get_cities():
     for continent in geo_data_json['Continents']:  # continent
         for country in continent['Countries']:
             for city in country['Cities']:
+                for airport in city['Airports']:
+                    city_yata[airport['Name']] = airport['Id']
                 city_yata[city['Name']] = city['IataCode']
+
     city_yata['London'] = "LON"
 
     return city_names, city_yata
