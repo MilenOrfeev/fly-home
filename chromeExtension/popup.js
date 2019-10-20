@@ -36,5 +36,3 @@ function formatDate(date) {
 
     return day + " " + monthNames[monthIndex] + " " + year;
 }
-
-
