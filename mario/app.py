@@ -38,9 +38,10 @@ def get_flight_in_range():
     flightRequest['price'] = maxPrice
     flightRequest['range'] = given_range
 
-    responseFlight = requests.post('http://localhost:8080/api/v1/flight', json=json.dumps(flightRequest))
+    jsonStuff = json.dumps(flightRequest, indent=2)
+    responseFlight = requests.post('http://localhost:8080/api/v1/flight', json=flightRequest)
 
-    return responseFlight
+    return responseFlight.content
 
 
 @app.route('/mario/flights', methods=['POST'])
