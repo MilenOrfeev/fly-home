@@ -20,7 +20,7 @@ def hello_world():
     return 'Hello World!'
 
 
-@app.route('/mario/range')
+@app.route('/mario/range', methods=['POST'])
 def get_flight_in_range():
     jsonRequest = request.get_json()
     origin = jsonRequest['location']
