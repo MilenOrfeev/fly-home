@@ -25,11 +25,11 @@ else{
     document.getElementById("livePrice").innerText= flight.price + " " + flight.currency;   
     document.getElementById("link").setAttribute("href", flight.link);
     link=flight.link;
+    document.getElementById("checkPage").addEventListener('click',directLink);
     if(flight.emissions){
         document.getElementById("emissions").style.visibility = "visible";
     }
 }
-document.getElementById("checkPage").addEventListener('click',directLink);
 function directLink(){
 
         var newURL = link;

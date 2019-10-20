@@ -1,25 +1,34 @@
-var airports;
+var placesArray;
+var place;
+document.getElementById("checkPage").addEventListener('click',sendQuery);
+
+
 function sendQuery(){
     var location = document.getElementById("location").value;
     var pLimit = document.getElementById("pLimit").value;
     var period = document.getElementById("period").value;
     if(location && pLimit && period){
-        var request = {location:location,pLimit:pLimit,period:period};
-
+        var request = JSON.stringify({location:place.PlaceId,pLimit:pLimit,period:period});
+        console.log(request);
         var xhttp = new XMLHttpRequest();
 
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
+                var flightDiv = document.getElementById("flights");
 
                 console.log(this.responseText);
+                var flight = JSON.parse(this.responseText);
+                var node = document.createElement("P");
+                var textnode = document.createTextNode("Origin : " + flight.origin+ "Destination : " + flight.destination+ "Departure date : " + flight.departureDate+"Return date : " + flight.returnDate+ "Price : " + flight.price+ "Currency : " + flight.currency);
+                node.appendChild(textNode);
+                flightDiv.appendChild(node);
 
             }
             else{
-                console.log("No resposne");
-                updateFlight({status:"not found"});
+                console.log("No response");
             }
         };
-        xhttp.open("POST", "http://localhost:8080/flight", true);
+        xhttp.open("POST", "http://localhost:5000/mario/range", true);
         xhttp.setRequestHeader("Content-Type", "application/json");
         xhttp.send(request);
     }
@@ -28,26 +37,6 @@ function sendQuery(){
 }
 
 
-
-function getSuggestions(){
-    var request = {location:location,pLimit:pLimit,period:period};
-
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-
-                console.log(this.responseText);
-                airports = this.responseText;
-
-        }
-        else{
-            console.log("No resposne");
-        }
-    };
-    xhttp.open("GET", "https://www.skyscanner.net/g/chiron/api/v1/places/autosuggest/v1.0/AF/GBP/en-EN?query="  , true);
-    xhttp.setRequestHeader("api-key", "skyscanner-guts2019");
-    xhttp.send(request);
-}
 
 function autocomplete(inp) {
     /*the autocomplete function takes two arguments,
@@ -60,29 +49,23 @@ function autocomplete(inp) {
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
 
-                console.log(this.responseText);
                 airports = this.responseText;
                 var arr1 = JSON.parse(this.responseText).Places;
-                console.log(arr1);
                 var arr = [];
-                console.log("Arr1 length :" + arr1.length);
-                console.log(arr1[0]);
+
                // for(var j=0;i<arr1.length;i++){
                 //    console.log(arr1[j].PlaceName);
                  //   arr.push(arr1[j].PlaceName);
                // }
                 arr1.forEach(function (arrayItem) {
                     var x = arrayItem.PlaceName;
-                    console.log(x);
                     arr.push(x);
 
                 });
-                console.log(arr);
 
 
 
                 var a, b, i, val = inp.value;
-                console.log(inp);
                 /*close any already open lists of autocompleted values*/
                 closeAllLists();
                 if (!val) { return false;}
@@ -111,6 +94,17 @@ function autocomplete(inp) {
                             /*close the list of autocompleted values,
                             (or any other open lists of autocompleted values:*/
                             closeAllLists();
+                            placesArray = arr1;
+                            console.log(placesArray);
+                            console.log(inp.value);
+                            placesArray.forEach(function(arrayItem){
+                                var x = arrayItem.PlaceName;
+                                if(x === inp.value){
+                                    place = arrayItem;
+                                    console.log(place);
+                                }
+                            });
+
                         });
                         a.appendChild(b);
                     }
