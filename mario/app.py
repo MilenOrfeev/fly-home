@@ -1,4 +1,6 @@
+import operator
 import re
+from collections import Counter
 
 from flask import Flask
 from flask import request
@@ -23,7 +25,9 @@ def get_flight():
     location = json['location']
 
     soup = BeautifulSoup(dom, features="html.parser")
-    # soup.find_all(re.compile('^h[1-6]$')
+    # get the head of the HTML
+    # get the title of the HTML
+    title = soup.title.string
     # kill all script and style elements
     for script in soup(["script", "style"]):
         script.extract()  # rip it out
@@ -32,24 +36,47 @@ def get_flight():
     text = soup.get_text()
     # headers = soup.find_all(re.compile('^h[1-6]$')
     text = text.replace("\n", " ")
-    print (type(text))
 
     # Check for a city in DOM
-    found_city = False
+    found_city_in_title = False
+    # Check for most common city neither in the header nor title
+    text_cities = {}
+    foundCity = None
     for city in app.config['cities']:
-        match = re.compile(r'\b({0})\b'.format(city)).search(text)
-
-        if match is not None:
-            found_city = True
+        compiled = re.compile(r'\b({0})\b'.format(city))
+        if compiled.search(title) is not None:
             print("Found city {}".format(city))
-            yatas = app.config['yatas']
-            # for header in headers:
+            found_city_in_title = True
+            foundCity = city
+            break
+        else:
+            match = compiled.findall(text)
+            if len(match) > 0:
+                text_cities[city] = len(match)
+                print("Found city {}".format(city))
 
-            return find_best_route(yatas[location], yatas[city])
+    if not found_city_in_title and len(text_cities.keys()) > 0:
+        foundCity = text_city(text_cities)
 
-    print("Didn't find any cities")
-    response = jsonify({'status': "not found"})
-    return response
+    if foundCity is None:
+        print("Didn't find any cities")
+        response = jsonify({'status': "not found"})
+        return response
+
+    yatas = app.config['yatas']
+    return find_best_route(yatas[location], yatas[foundCity])
+
+
+def text_city(text_cities):
+    # find the most common word in the text
+    maxV = 0
+    bestK = None
+    for k,v in text_cities.items():
+        if v > maxV:
+            maxV = v
+            bestK = k
+
+    return bestK
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -49,6 +49,12 @@ def find_best_route(origin, destination):
             if pricing_option['Price'] < minimum:
                 minimum = pricing_option['Price']
                 link = pricing_option['DeeplinkUrl']
+
+    if minimum == 100000000:
+        print("Didn't find any flights from live version")
+        response = jsonify({'status': "not found"})
+        return response
+
     print(link)
 
     finalResponse = json.loads(responseFlight.content)
