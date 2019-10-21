@@ -50,13 +50,13 @@ function sendQuery(){
                     textnode.className = "list-group-item";
                     var button = document.createElement("BUTTON");
                     button.setAttribute("id",""+buttonNumber);
-
+                    buttonNumber++;
                     createA.appendChild(textnode);
                     node1.appendChild(createA);
                     node1.appendChild(button);
 
                     linkArray.push(arrayElement.link);
-
+                    console.log(linkArray);
 
                     // var textnode2 = document.createTextNode(" Departure date: " + formatDate(new Date(arrayElement.departureDate)) +
                     //     " Return date: " + formatDate(new Date(arrayElement.returnDate)));
